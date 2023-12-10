@@ -60,52 +60,45 @@ void moveComputer (int** myGrid, int numComputer) {
  *  \return le score de chaque coup
 */
 
-int minMax (int** myGrid, int depth, int isMax, int numComputer, int* countPass) { 
-    int score, bestScore;
+int minMax(int** myGrid, int depth, int isMax, int numComputer, int* countPassMax) {
     int i, j;
-    int verif = 0;
-
-    *countPass += 1;
-
     int result = checkWin(myGrid);
+    int score = 0;
+
     if (result == numComputer) {
-        score = 100 - depth;  // Score positif si l'ordinateur gagne
-        verif = 1;
+        return 100 - depth;  // Score positif si l'ordinateur gagne
     } else if (result == 3) {
-        score = 0;  // Égalité
-        verif = 1;
+        return 0;  // Égalité
     } else if (result > 0) {
-        score = depth - 100;  // Score négatif si l'adversaire gagne
-        verif = 1;
+        return depth - 100;  // Score négatif si l'adversaire gagne
     }
 
-    if (isMax && verif == 0) {
-        bestScore = -1000;
+    if (isMax) {
+        int bestScore = -1000;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
                 if (myGrid[i][j] == 0) {
                     myGrid[i][j] = numComputer;
-                    score = minMax(myGrid, depth + 1, 0, numComputer, countPass);
+                    *countPassMax += 1;
+                    score = minMax(myGrid, depth + 1, 0, numComputer, countPassMax);
                     myGrid[i][j] = 0;
                     bestScore = score > bestScore ? score : bestScore;
                 }
             }
         }
-        verif = 1;
-    } else if (verif == 0){
-        bestScore = 1000;
+        return bestScore;
+    } else {
+        int bestScore = 1000;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
                 if (myGrid[i][j] == 0) {
                     myGrid[i][j] = 3 - numComputer;  // Adversaire
-                    score = minMax(myGrid, depth + 1, 1, numComputer, countPass);
+                    score = minMax(myGrid, depth + 1, 1, numComputer, countPassMax);
                     myGrid[i][j] = 0;
                     bestScore = score < bestScore ? score : bestScore;
                 }
             }
         }
-        verif = 1;
+        return bestScore;
     }
-    return score;
 }
- 

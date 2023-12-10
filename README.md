@@ -17,7 +17,7 @@ make all
 ```bash
 ./bin/exe
 ```
--Vous vous retrouverez face au menu du projet et vous pourrez choisi de jouer contre un autre joueur (sur le même ordinateur) ou contre l'algorithme MineMax
+-Vous vous retrouverez face au menu du projet et vous pourrez choisir de jouer contre un autre joueur (sur le même ordinateur) ou contre l'algorithme MinMax
 ```bash
 Que souhaitez vous faire: 
  1 - Jouer contre un autre Joueur 
